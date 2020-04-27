@@ -107,6 +107,7 @@ def detect(input_image, output_path, use_json, annotate_faces,
 
     for i, face in enumerate(d.result.faces):
         shape = d.predictor(img, face)
+        print(shape)
 
         if save_chip:
             cropped = Image.open(input_image)
@@ -164,11 +165,85 @@ def print_face_info(i, face, shape):
     )
 
     for landmark in CatFaceLandmark.all():
+
+
         print '   {}: ({}, {})'.format(
             landmark['name'],
             shape.part(landmark['value']).x,
             shape.part(landmark['value']).y
         )
+        if(landmark['name']=='Chin'):
+            print '   {}: ({}, {})'.format(
+                'Chin Left',
+                shape.part(landmark['value']).x-65,
+                shape.part(landmark['value']).y
+            )
+            print '   {}: ({}, {})'.format(
+                'Chin Right',
+                shape.part(landmark['value']).x+65,
+                shape.part(landmark['value']).y
+            )
+
+        if(landmark['name']=='Left Eye'):
+            print '   {}: ({}, {})'.format(
+                'Left Eye Left',
+                shape.part(landmark['value']).x-60,
+                shape.part(landmark['value']).y
+            )
+            print '   {}: ({}, {})'.format(
+                'Left Eye Right',
+                shape.part(landmark['value']).x+60,
+                shape.part(landmark['value']).y
+            )
+            print '   {}: ({}, {})'.format(
+                'Left Eye Above',
+                shape.part(landmark['value']).x,
+                shape.part(landmark['value']).y-60
+            )
+            print '   {}: ({}, {})'.format(
+                'Left Eye Below',
+                shape.part(landmark['value']).x,
+                shape.part(landmark['value']).y+60
+            )
+
+        if(landmark['name']=='Right Eye'):
+            print '   {}: ({}, {})'.format(
+                'Right Eye Left',
+                shape.part(landmark['value']).x-60,
+                shape.part(landmark['value']).y
+            )
+            print '   {}: ({}, {})'.format(
+                'Right Eye Right',
+                shape.part(landmark['value']).x+60,
+                shape.part(landmark['value']).y
+            )
+            print '   {}: ({}, {})'.format(
+                'Right Eye Above',
+                shape.part(landmark['value']).x,
+                shape.part(landmark['value']).y-60
+            )
+            print '   {}: ({}, {})'.format(
+                'Right Eye Below',
+                shape.part(landmark['value']).x,
+                shape.part(landmark['value']).y+60
+            )
+
+        if(landmark['name']=='Nose'):
+            print '   {}: ({}, {})'.format(
+                'Nose Left',
+                shape.part(landmark['value']).x-55,
+                shape.part(landmark['value']).y
+            )
+            print '   {}: ({}, {})'.format(
+                'Nose Right',
+                shape.part(landmark['value']).x+55,
+                shape.part(landmark['value']).y
+            )
+            print '   {}: ({}, {})'.format(
+                'Nose Below',
+                shape.part(landmark['value']).x,
+                shape.part(landmark['value']).y+55
+            )
 
 
 def get_face_json(face, shape):
@@ -199,28 +274,63 @@ def draw_face_annotation(img, face, color, width):
 
 
 def draw_landmark_annotation(img, shape, color, width):
-    lines = [
-        [CatFaceLandmark.CHIN, CatFaceLandmark.NOSE],
-        [CatFaceLandmark.NOSE, CatFaceLandmark.LEFT_EYE],
-        [CatFaceLandmark.NOSE, CatFaceLandmark.RIGHT_EYE],
-        [CatFaceLandmark.LEFT_EYE, CatFaceLandmark.LEFT_OF_LEFT_EAR],
-        [CatFaceLandmark.LEFT_EYE, CatFaceLandmark.RIGHT_OF_LEFT_EAR],
-        [CatFaceLandmark.RIGHT_OF_LEFT_EAR, CatFaceLandmark.LEFT_OF_LEFT_EAR],
-        [CatFaceLandmark.RIGHT_EYE, CatFaceLandmark.RIGHT_OF_RIGHT_EAR],
-        [CatFaceLandmark.RIGHT_EYE, CatFaceLandmark.LEFT_OF_RIGHT_EAR],
-        [CatFaceLandmark.RIGHT_OF_RIGHT_EAR, CatFaceLandmark.LEFT_OF_RIGHT_EAR],
-        [CatFaceLandmark.RIGHT_OF_LEFT_EAR, CatFaceLandmark.LEFT_OF_RIGHT_EAR],
-        [CatFaceLandmark.RIGHT_EYE, CatFaceLandmark.LEFT_EYE],
+    lines= [
+        [CatFaceLandmark.CHIN],
+        [CatFaceLandmark.NOSE],
+        [CatFaceLandmark.RIGHT_EYE],
+        [CatFaceLandmark.LEFT_EYE],
+        [CatFaceLandmark.LEFT_OF_RIGHT_EAR],
+        [CatFaceLandmark.RIGHT_OF_LEFT_EAR],
+        [CatFaceLandmark.LEFT_OF_LEFT_EAR],
+        [CatFaceLandmark.RIGHT_OF_RIGHT_EAR],
     ]
 
-    for i in lines:
-        draw_line(img, shape.part(i[0]), shape.part(i[1]), color, width)
+    #lines = [
+    #    [CatFaceLandmark.CHIN, CatFaceLandmark.NOSE],
+    #    [CatFaceLandmark.NOSE, CatFaceLandmark.LEFT_EYE],
+    #    [CatFaceLandmark.NOSE, CatFaceLandmark.RIGHT_EYE],
+    #    [CatFaceLandmark.LEFT_EYE, CatFaceLandmark.LEFT_OF_LEFT_EAR],
+    #    [CatFaceLandmark.LEFT_EYE, CatFaceLandmark.RIGHT_OF_LEFT_EAR],
+    #    [CatFaceLandmark.RIGHT_OF_LEFT_EAR, CatFaceLandmark.LEFT_OF_LEFT_EAR],
+    #    [CatFaceLandmark.RIGHT_EYE, CatFaceLandmark.RIGHT_OF_RIGHT_EAR],
+    #    [CatFaceLandmark.RIGHT_EYE, CatFaceLandmark.LEFT_OF_RIGHT_EAR],
+    #    [CatFaceLandmark.RIGHT_OF_RIGHT_EAR, CatFaceLandmark.LEFT_OF_RIGHT_EAR],
+    #    [CatFaceLandmark.RIGHT_OF_LEFT_EAR, CatFaceLandmark.LEFT_OF_RIGHT_EAR],
+    #    [CatFaceLandmark.RIGHT_EYE, CatFaceLandmark.LEFT_EYE],
+    #]
+
+    for i in range(len(lines)):
+        feat = lines[i]
+        draw_line(img, shape.part(feat[0]), shape.part(feat[0]), color, width)
+        if(lines[i]==[5]) or (lines[i]==[1]):
+            offset = (shape.part(lines[2][0]).x - shape.part(lines[3][0]).x)/5
+            draw_line_offset(img, shape.part(feat[0]), shape.part(feat[0]), color, width, offset, 1, 1, 1, 1)
+        if(lines[i]==[0]):
+            offset = (shape.part(lines[2][0]).x - shape.part(lines[3][0]).x)/5
+            draw_line_offset(img, shape.part(feat[0]), shape.part(feat[0]), color, width, offset, 1, 1, 0, 0)
+        if(lines[i]==[4]):
+            offset = (shape.part(lines[2][0]).x - shape.part(lines[3][0]).x)/5
+            draw_line_offset(img, shape.part(feat[0]), shape.part(feat[0]), color, width, offset, 1, 1, 1, 0)
+        #draw_line(img, shape.part(i[0]), shape.part(i[1]), color, width)
 
 
 def draw_line(img, shape1, shape2, color, width):
-    pt1 = (shape1.x, shape1.y)
-    pt2 = (shape2.x, shape2.y)
-    cv2.line(img, pt1, pt2, color, width, cv2.LINE_AA)
+    #pt1 = (shape1.x, shape1.y)
+    #pt2 = (shape2.x, shape2.y)
+
+    #cv2.line(img, pt1, pt2, color, width, cv2.LINE_AA)
+    cv2.circle(img, (shape1.x, shape1.y), 3, color, int(width), cv2.LINE_AA)
+
+def draw_line_offset(img, shape1, shape2, color, width, offset, plus_1, minus_1, plus_2, minus_2):
+    #pt1 = (shape1.x, shape1.y)
+    #pt2 = (shape2.x, shape2.y)
+
+    #cv2.line(img, pt1, pt2, color, width, cv2.LINE_AA)
+
+    cv2.circle(img, (shape1.x+offset*plus_1, shape1.y), 3, color, int(width), cv2.LINE_AA)
+    cv2.circle(img, (shape1.x-offset*minus_1, shape1.y), 3, color, int(width), cv2.LINE_AA)
+    cv2.circle(img, (shape1.x, shape1.y+offset*plus_2), 3, color, int(width), cv2.LINE_AA)
+    cv2.circle(img, (shape1.x, shape1.y-offset*minus_2), 3, color, int(width), cv2.LINE_AA)
 
 
 main()
