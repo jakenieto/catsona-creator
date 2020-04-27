@@ -3,6 +3,7 @@
 import numpy as np
 import cv2
 import sys
+import imutils
 
 # Read points from text file
 def readPoints(path) :
@@ -71,13 +72,17 @@ def morphTriangle(img1, img2, img, t1, t2, t, alpha) :
 
 if __name__ == '__main__' :
 
-    filename1 = 'orange_cat.jpg'
-    filename2 = 'ted_cruz.jpg'
+    filename1 = 'maura.jpg'
+    filename2 = 'orange_cat.jpg'
     alpha = 0.5
     
     # Read images
     img1 = cv2.imread(filename1);
     img2 = cv2.imread(filename2);
+
+    img1 = imutils.resize(img1, width=500)
+    img2 = imutils.resize(img2, width=500)
+
     
     # Convert Mat to float data type
     img1 = np.float32(img1)
@@ -105,7 +110,9 @@ if __name__ == '__main__' :
     subdiv  = cv2.Subdiv2D(rect)
 
     for point in points:
+        print(point)
         subdiv.insert(point)
+        
     #perform Dulaney Triangulation
     triangles = subdiv.getTriangleList();
     point_triangles = []

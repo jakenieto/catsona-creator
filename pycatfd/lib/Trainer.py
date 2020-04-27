@@ -1,6 +1,6 @@
 import dlib
 import os
-from TrainingDataUtil import TrainingDataUtil
+from lib.TrainingDataUtil import TrainingDataUtil
 
 DATA_DIR = 'data'
 DETECTOR_SVM = os.path.join(DATA_DIR, 'detector.svm')
